@@ -224,7 +224,7 @@ export default getFilmsFromApiWithSearchedText
 TMDBApi.js : fonction getFilmsFromApiWithSearchedText complète, avec log et export
 
 ```javascript
-const getFilmsFromApiWithSearchedText = async (text) => {
+const getFilmsFromApiWithSearchedText = async (text) => { 
   const url =
     'https://api.themoviedb.org/3/search/movie?api_key=' +
     API_TOKEN +
