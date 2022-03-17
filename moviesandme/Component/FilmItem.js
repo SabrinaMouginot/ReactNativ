@@ -15,9 +15,10 @@ class FilmItem extends React.Component{
                 <Text>{film.title}</Text>
                 <Image
                     style={styles.image}
-                    source={{
-                        uri: 'https://reactnative.dev/img/tiny_logo.png',
-                    }}
+                        source={
+                        film.poster_path
+                        // uri: 'https://reactnative.dev/img/tiny_logo.png',
+                    }
                 />
                 </View>
         </View>)

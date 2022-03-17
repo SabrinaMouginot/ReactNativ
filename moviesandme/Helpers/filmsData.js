@@ -5,7 +5,7 @@ let films = [
     id: 181808,
     vote_average: 7.2,
     title: 'Star Wars VIII - Les derniers Jedi',
-    poster_path: '',
+    poster_path: require ('../assets/filmVide.png'), //image du film
     original_title: 'Star Wars: The Last Jedi',
     overview:
       'Nouvel épisode de la saga. Les héros du Réveil de la force rejoignent les figures légendaires de la galaxie dans une aventure épique qui révèle des secrets ancestraux sur la Force et entraîne de choquantes révélations sur le passé…',
