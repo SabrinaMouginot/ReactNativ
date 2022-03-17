@@ -46,7 +46,7 @@ renderItem={function ({item}) { return <Text>{item.title}</Text> }}
 />
 ```
 
-\*\*Par défaut FlatList a sont sytlés `flex: 1` et pour changer cela il faut l'encapsuler dans une `<View>`
+\*\*Par défaut FlatList a sont stylés `flex: 1` et pour changer cela il faut l'encapsuler dans une `<View>`
 
 Maintenant pour avoir une liste de films
 
@@ -111,6 +111,26 @@ A faire : dans la liste, à la place du `<Text>` créer un style pour afficher l
 <FlatList data={films} renderItem={({ item }) => <FilmItem film={item} />} />
 ```
 
+```javascript
+// Components/FilmItem.js
+import React from 'react'
+import { View, Text } from 'react-native'
+
+class FilmItem extends React.Component {
+  render() {
+    const film = this.props.film
+    console.log('test:' + this.props.film.title)
+    return (
+      <View>
+        <Text>{film.title}</Text>
+      </View>
+    )
+  }
+}
+
+export default FilmItem
+```
+
 ## Props
 
 En React Native les propriétés d'un composant s'appellent les **props** comme l'attribut `style`
@@ -147,6 +167,26 @@ comme si on avait
                         uri: 'https://reactnative.dev/img/tiny_logo.png',
                     }}
                 />
+```
+
+```javascript
+const styles = StyleSheet.create({
+  image: {
+    width: 20,
+    height: 20,
+  },
+})
+```
+
+Pour l'image on verra plus tard comment récupérer l'image  
+Pour l'instant on peut mettre `Assets/filmVide.png`
+
+![filmVide](Assets/filmVide.png)
+
+Créer le dossier `Assets`et y placer le fichier `filmVide.png`
+
+```javascript
+<Image style={styles.image} source={require('../Assets/filmVide.png')} />
 ```
 
 ## State
@@ -205,17 +245,46 @@ axiosInstance.get('api/users/1').then((response) => {
 - Créer un dossier API
 - Créer un fichier API/TMDBApi.js
 
-TMDBApi.js : fonction et URL pour l'appel API
+`TMDBApi.js` : fonction et URL pour l'appel API
+
+Voir la [documentation](https://developers.themoviedb.org/3/search/search-movies)
+
+Pour stocker la clé API télécharger le paquet `react-native-dotenv`:
+
+`yarn add react-native-dotenv`
+
+L'ajouter dans `babel.config.js` :
+
+```javascript
+  …
+  return {
+    … ,
+    plugins: [['module:react-native-dotenv']],
+  }
+}
+```
+
+Ajouter `.env` dans le fichier `.gitignore`
+
+Ajouter un fichier `.env` au même niveau que `App.js` :
+
+```bash
+API_TOKEN=VOTRE_TOKEN_ICI
+```
+
+Créer le fichier `API/TMDBApi.js` et importer la clé :
 
 ```javascript
 // API/TMDBApi.js
-import axios from 'axios';
+import axios from 'axios'
+import { API_TOKEN } from '@env'
 
-const API_TOKEN = "VOTRE_TOKEN_ICI";
-
-const getFilmsFromApiWithSearchedText = async (text) =>
-  const url = 'https://api.themoviedb.org/3/search/movie?api_key=' + API_TOKEN + '&language=fr&query=' + text
-
+const getFilmsFromApiWithSearchedText = async (text) => {
+  const url =
+    'https://api.themoviedb.org/3/search/movie?api_key=' +
+    API_TOKEN +
+    '&language=fr&query=' +
+    text
 }
 
 export default getFilmsFromApiWithSearchedText
@@ -224,7 +293,7 @@ export default getFilmsFromApiWithSearchedText
 TMDBApi.js : fonction getFilmsFromApiWithSearchedText complète, avec log et export
 
 ```javascript
-const getFilmsFromApiWithSearchedText = async (text) => { 
+const getFilmsFromApiWithSearchedText = async (text) => {
   const url =
     'https://api.themoviedb.org/3/search/movie?api_key=' +
     API_TOKEN +
@@ -232,6 +301,7 @@ const getFilmsFromApiWithSearchedText = async (text) => {
     text
   const response = await axios.get(url)
   console.log('--getFilmsFromApiWithSearchedText--')
+  console.log(url)
   console.log(response.data)
   console.log('--fin getFilmsFromApiWithSearchedText--')
   return response.data
