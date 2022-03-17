@@ -3,6 +3,7 @@ import React from 'react'
 import { FlatList, View, TextInput, Button, StyleSheet } from 'react-native'
 import films from '../Helpers/filmsData'
 import FilmItem from './FilmItem'
+import getFilmsFromApiWithSearchedText from '../API/TMDBApi'
 
 
 const styles = StyleSheet.create({
@@ -29,23 +30,44 @@ const styles = StyleSheet.create({
   },
 })
 
-class Search extends React.Component{
-    render(){
-        return (
-            <View style={styles.main_container}>
-                <TextInput style={styles.textinput}
-                 placeholder='Titre du film' />
+class Search extends React.Component {
+	// ajouter la prop films, une liste vide au départ
+	constructor(props) {
+		super(props);
+    this.state = { films: [] };
+	}
+	_loadFilms() {
+        getFilmsFromApiWithSearchedText('star').then((data) => {
+			// appel de setSate, actualistion automatique de la Flatlist
+			this.setState({ films: data.results });
+			// enlever le forceUpdate()
 
-                <Button title='Rechercher' onPress={() => { }} />
-                <View>
-                    <FlatList
-                        data={films}
-                        keyExtractor={(item) => item.id.toString()}
-                        renderItem={({ item }) => <FilmItem film={item} />} />
-                </View>
-            </View>
-        );
-    }
+			console.log(
+				'--_loadFilms\n' +
+					JSON.stringify(data) +
+					'\n_loadFilms--' +
+					data.results[0].original_title +
+					'\n--_loadFilms--'
+			);
+		});
+	}
+	render() {
+		return (
+			<View style={styles.main_container}>
+				<TextInput style={styles.textinput} placeholder="Titre du film" />
+
+				<Button title="Rechercher" onPress={() => this._loadFilms()} />
+				<View>
+					<FlatList
+						// les données de la FlatList doivent être actualisées à chaque appel de setState
+						data={this.state.films}
+						keyExtractor={(item) => item.id.toString()}
+						renderItem={({ item }) => <FilmItem film={item} />}
+					/>
+				</View>
+			</View>
+		);
+	}
 }
 
 export default Search
