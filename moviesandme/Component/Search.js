@@ -40,27 +40,35 @@ class Search extends React.Component {
   // ajouter la prop films, une liste vide au départ
   constructor(props) {
     super(props);
-    this.state = { films: [], height: 0 };
+    this.state = {
+      films: [],
+      height: 0,
+      isLoading: false, // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
+    };
     this.searchedText = "";
   }
   _searchTextInputChanged(text) {
     this.searchedText = text; // Modification du texte recherché à chaque saisie de texte, sans passer par setState
   }
 
+  // Bien noter les deux setState
+  //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
   _loadFilms() {
-    getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-      // appel de setSate, actualistion automatique de la Flatlist
-      this.setState({ films: data.results });
-      // enlever le forceUpdate()
+    if (this.searchedText.length > 0 && !this.state.isLoading) {
+      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
+        // appel de setSate, actualistion automatique de la Flatlist
+        this.setState({ films: data.results, isLoading: false });
+        // enlever le forceUpdate()
 
-      console.log(
-        "--_loadFilms\n" +
-          JSON.stringify(data) +
-          "\n_loadFilms--" +
-          data.results[0].original_title +
-          "\n--_loadFilms--"
-      );
-    });
+        console.log(
+          "--_loadFilms\n" +
+            JSON.stringify(data) +
+            "\n_loadFilms--" +
+            data.results[0].original_title +
+            "\n--_loadFilms--"
+        );
+      });
+    }
   }
 
   render() {
