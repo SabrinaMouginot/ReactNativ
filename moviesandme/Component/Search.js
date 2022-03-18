@@ -47,7 +47,10 @@ class Search extends React.Component {
       isLoading: false, // Par défaut à false car il n'y a pas de chargement tant qu'on ne lance pas de recherche
     };
     this.searchedText = "";
+    this.page = 0; // Compteur pour connaître la page courante
+    this.totalPages = 0; // Nombre de pages totales pour savoir si on a atteint la fin des retours de l'API
   }
+
   _searchTextInputChanged(text) {
     this.searchedText = text; // Modification du texte recherché à chaque saisie de texte, sans passer par setState
   }
