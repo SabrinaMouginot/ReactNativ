@@ -80,7 +80,7 @@ class Search extends React.Component {
     );
   }
 
-  
+
 
   // Bien noter les deux setState
   //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
@@ -131,7 +131,7 @@ class Search extends React.Component {
           onSubmitEditing={() => this._loadFilms()}
         />
         {/* <View> */}
-        <Button title="Rechercher" onPress={() => this._loadFilms()} />
+        <Button title="Rechercher" onPress={() => this._searchFilms()} />
 
         <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
           <FlatList
