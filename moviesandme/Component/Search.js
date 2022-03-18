@@ -1,4 +1,3 @@
-// Components/Search.js
 import React from "react";
 import {
   FlatList,
@@ -59,10 +58,18 @@ class Search extends React.Component {
   //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
   _loadFilms() {
     if (this.searchedText.length > 0 && !this.state.isLoading) {
-      getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
-        // appel de setSate, actualistion automatique de la Flatlist
-        this.setState({ films: data.results, isLoading: false });
-        // enlever le forceUpdate()
+      getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then((data) => {
+        // enlever le forceUpdate()          this.page = data.page
+          this.totalPages = data.total_pages
+        this.setState({
+          // ... syntaxe Javascript ES6 qui permet de recopier
+          // et de fusionner les deux tableaux
+          // ⟺ films: this.state.films.concat(data.results)
+          films: [...this.state.films, ...data.results],
+          isLoading: false
+        })
+
+      
 
         console.log(
           "--_loadFilms\n" +
