@@ -65,20 +65,21 @@ class Search extends React.Component {
           style={styles.textinput}
           placeholder="Titre du film"
           onChangeText={(text) => this._searchTextInputChanged(text)}
+          onSubmitEditing={() => this._loadFilms()}
         />
         <View>
           <Button title="Rechercher" onPress={() => this._loadFilms()} />
 
           <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
             <FlatList
-              onLayout={(e) => {
-                this.setState({ height: e.nativeEvent.layout.height }); //setstate pr ne pas charger les données à l'infini
-                console.log(e.nativeEvent.layout.height);
-              }}
-              style={{
-                flexGrow: 1,
-                height: this.state.height,
-              }}
+              // onLayout={(e) => {
+              //   this.setState({ height: e.nativeEvent.layout.height }); //setstate pr ne pas charger les données à l'infini
+              //   console.log(e.nativeEvent.layout.height);
+              // }}
+              // style={{
+              //   flexGrow: 1,
+              //   height: this.state.height,
+              // }}
               onEndReachedThreshold={0.5}
               onEndReached={() => {
                 if (this.page < this.totalPages) {
