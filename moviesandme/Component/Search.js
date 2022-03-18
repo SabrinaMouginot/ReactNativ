@@ -7,6 +7,7 @@ import {
   Button,
   StyleSheet,
   SafeAreaView,
+  ActivityIndicator,
 } from "react-native";
 import films from "../Helpers/filmsData";
 import FilmItem from "./FilmItem";
@@ -71,6 +72,17 @@ class Search extends React.Component {
     }
   }
 
+  _displayLoading() {
+    if (this.state.isLoading) {
+      return (
+        <View style={styles.loading_container}>
+          <ActivityIndicator size="large" />
+          {/* Le component ActivityIndicator possède une propriété size pour définir la taille du visuel de chargement : small ou large. Par défaut size vaut small, on met donc large pour que le chargement soit bien visible */}
+        </View>
+      );
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.main_container}>
@@ -106,6 +118,7 @@ class Search extends React.Component {
           />
         </View>
         {/* </View> */}
+        {this._displayLoading()}
       </SafeAreaView>
     );
   }
