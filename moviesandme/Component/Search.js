@@ -34,10 +34,16 @@ class Search extends React.Component {
   // ajouter la prop films, une liste vide au départ
   constructor(props) {
     super(props);
-	this.state = { films: [], height: 0 };
+    this.state = { films: [], height: 0 };
+    this.searchedText = "";
   }
+  _searchTextInputChanged(text) {
+    this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
+  }
+
   _loadFilms() {
-    getFilmsFromApiWithSearchedText("star").then((data) => {
+
+    getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
       // appel de setSate, actualistion automatique de la Flatlist
       this.setState({ films: data.results });
       // enlever le forceUpdate()
@@ -50,15 +56,16 @@ class Search extends React.Component {
           "\n--_loadFilms--"
       );
     });
-	}
-	
-
+  }
 
   render() {
     return (
       <SafeAreaView style={styles.main_container}>
-        <TextInput style={styles.textinput} placeholder="Titre du film" />
-
+        <TextInput
+          style={styles.textinput}
+          placeholder="Titre du film"
+          onChangeText={(text) => this._searchTextInputChanged(text)}
+        />
         <View>
           <Button title="Rechercher" onPress={() => this._loadFilms()} />
 
