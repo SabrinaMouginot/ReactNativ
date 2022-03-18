@@ -1,10 +1,16 @@
 // Components/Search.js
 import React from "react";
-import { FlatList, View, TextInput, Button, StyleSheet, SafeAreaView } from "react-native";
+import {
+  FlatList,
+  View,
+  TextInput,
+  Button,
+  StyleSheet,
+  SafeAreaView,
+} from "react-native";
 import films from "../Helpers/filmsData";
 import FilmItem from "./FilmItem";
-import getFilmsFromApiWithSearchedText from "../API/TMDBApi";
-
+import { getFilmsFromApiWithSearchedText } from "../API/TMDBApi";
 
 const styles = StyleSheet.create({
   main_container: {
@@ -38,11 +44,10 @@ class Search extends React.Component {
     this.searchedText = "";
   }
   _searchTextInputChanged(text) {
-    this.searchedText = text // Modification du texte recherché à chaque saisie de texte, sans passer par setState
+    this.searchedText = text; // Modification du texte recherché à chaque saisie de texte, sans passer par setState
   }
 
   _loadFilms() {
-
     getFilmsFromApiWithSearchedText(this.searchedText).then((data) => {
       // appel de setSate, actualistion automatique de la Flatlist
       this.setState({ films: data.results });
@@ -67,32 +72,32 @@ class Search extends React.Component {
           onChangeText={(text) => this._searchTextInputChanged(text)}
           onSubmitEditing={() => this._loadFilms()}
         />
-        <View>
-          <Button title="Rechercher" onPress={() => this._loadFilms()} />
+        {/* <View> */}
+        <Button title="Rechercher" onPress={() => this._loadFilms()} />
 
-          <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
-            <FlatList
-              // onLayout={(e) => {
-              //   this.setState({ height: e.nativeEvent.layout.height }); //setstate pr ne pas charger les données à l'infini
-              //   console.log(e.nativeEvent.layout.height);
-              // }}
-              // style={{
-              //   flexGrow: 1,
-              //   height: this.state.height,
-              // }}
-              onEndReachedThreshold={0.5}
-              onEndReached={() => {
-                if (this.page < this.totalPages) {
-                  // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
-                  this._loadFilms();
-                }
-              }}
-              data={this.state.films}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={({ item }) => <FilmItem film={item} />}
-            />
-          </View>
+        <View style={{ flex: 1 }} contentContainerStyle={{ flex: 1 }}>
+          <FlatList
+            onLayout={(e) => {
+              this.setState({ height: e.nativeEvent.layout.height }); //setstate pr ne pas charger les données à l'infini
+              console.log(e.nativeEvent.layout.height);
+            }}
+            style={{
+              flexGrow: 1,
+              height: this.state.height,
+            }}
+            onEndReachedThreshold={0.5}
+            onEndReached={() => {
+              if (this.page < this.totalPages) {
+                // On vérifie qu'on n'a pas atteint la fin de la pagination (totalPages) avant de charger plus d'éléments
+                this._loadFilms();
+              }
+            }}
+            data={this.state.films}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <FilmItem film={item} />}
+          />
         </View>
+        {/* </View> */}
       </SafeAreaView>
     );
   }

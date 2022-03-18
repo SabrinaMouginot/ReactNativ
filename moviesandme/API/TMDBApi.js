@@ -12,4 +12,9 @@ const getFilmsFromApiWithSearchedText = async (text) => {
 	return response.data;
 };
 
+const getImageFromApi = (name) => {
+  return { uri: "https://image.tmdb.org/t/p/w300" + name };
+};
+
 export default getFilmsFromApiWithSearchedText;
+export { getFilmsFromApiWithSearchedText, getImageFromApi };
