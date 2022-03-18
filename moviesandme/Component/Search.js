@@ -54,31 +54,59 @@ class Search extends React.Component {
     this.searchedText = text; // Modification du texte recherché à chaque saisie de texte, sans passer par setState
   }
 
+  _searchFilms() {
+    this.page = 0;
+    this.totalPages = 0;
+
+    // setState est une fonction asychrone
+    // Pour améliorer les performances React peut en différer les traitements
+    // Elle prend un deuxième paramètre
+    //      une fonction callback qui est appelée lorsque tout est prêt
+    this.setState(
+      {
+        films: [],
+      },
+      () => {
+        console.log(
+          "Page : " +
+            this.page +
+            " / TotalPages : " +
+            this.totalPages +
+            " / Nombre de films : " +
+            this.state.films.length
+        );
+        this._loadFilms();
+      }
+    );
+  }
+
+  
+
   // Bien noter les deux setState
   //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
   _loadFilms() {
     if (this.searchedText.length > 0 && !this.state.isLoading) {
-      getFilmsFromApiWithSearchedText(this.searchedText, this.page+1).then((data) => {
-        // enlever le forceUpdate()          this.page = data.page
-          this.totalPages = data.total_pages
-        this.setState({
-          // ... syntaxe Javascript ES6 qui permet de recopier
-          // et de fusionner les deux tableaux
-          // ⟺ films: this.state.films.concat(data.results)
-          films: [...this.state.films, ...data.results],
-          isLoading: false
-        })
+      getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
+        (data) => {
+          // enlever le forceUpdate()          this.page = data.page
+          this.totalPages = data.total_pages;
+          this.setState({
+            // ... syntaxe Javascript ES6 qui permet de recopier
+            // et de fusionner les deux tableaux
+            // ⟺ films: this.state.films.concat(data.results)
+            films: [...this.state.films, ...data.results],
+            isLoading: false,
+          });
 
-      
-
-        console.log(
-          "--_loadFilms\n" +
-            JSON.stringify(data) +
-            "\n_loadFilms--" +
-            data.results[0].original_title +
-            "\n--_loadFilms--"
-        );
-      });
+          console.log(
+            "--_loadFilms\n" +
+              JSON.stringify(data) +
+              "\n_loadFilms--" +
+              data.results[0].original_title +
+              "\n--_loadFilms--"
+          );
+        }
+      );
     }
   }
 
