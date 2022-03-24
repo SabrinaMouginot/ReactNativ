@@ -1,6 +1,6 @@
 // Components/FilmItem.js
 import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
+import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import dayjs from "dayjs";
 /* import 'react-json-pretty/themes/adventure_time.css'
 import JSONPretty from 'react-json-pretty' */
@@ -11,28 +11,30 @@ class FilmItem extends React.Component {
     const film = this.props.film;
     console.log("test:" + this.props.film.title);
     return (
-      <View>
-        <View style={styles.film_main_container}>
-          <Image
-            style={styles.image}
-            source={getImageFromApi(film.poster_path)}
-          />
-          <View style={styles.content_container}>
-            <View style={styles.header_container}>
-              <Text style={styles.title_text}>{film.title}</Text>
-              <Text style={styles.vote_text}>{film.vote_average}</Text>
-            </View>
-            <View style={styles.description_container}>
-              <Text style={styles.description_text}>{film.overview}</Text>
-            </View>
-            <View style={styles.date_container}>
-              <Text style={styles.date_text}>
-                {dayjs(film.release_date).format("DD/MM/YYYY")}
-              </Text>
+      <Pressable onPress={() => alert("clicked")}>
+        <View>
+          <View style={styles.film_main_container}>
+            <Image
+              style={styles.image}
+              source={getImageFromApi(film.poster_path)}
+            />
+            <View style={styles.content_container}>
+              <View style={styles.header_container}>
+                <Text style={styles.title_text}>{film.title}</Text>
+                <Text style={styles.vote_text}>{film.vote_average}</Text>
+              </View>
+              <View style={styles.description_container}>
+                <Text style={styles.description_text}>{film.overview}</Text>
+              </View>
+              <View style={styles.date_container}>
+                <Text style={styles.date_text}>
+                  {dayjs(film.release_date).format("DD/MM/YYYY")}
+                </Text>
+              </View>
             </View>
           </View>
         </View>
-      </View>
+      </Pressable>
     );
   }
 }

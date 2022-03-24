@@ -80,12 +80,13 @@ class Search extends React.Component {
     );
   }
 
-
-
   // Bien noter les deux setState
   //   isLoading: True puis appel API puis lorsque l'API a répondu isLoading: False
   _loadFilms() {
     if (this.searchedText.length > 0 && !this.state.isLoading) {
+      this.setState({
+        isLoading:true,
+      })
       getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
         (data) => {
           // enlever le forceUpdate()          this.page = data.page
@@ -112,6 +113,7 @@ class Search extends React.Component {
 
   _displayLoading() {
     if (this.state.isLoading) {
+
       return (
         <View style={styles.loading_container}>
           <ActivityIndicator size="large" />
@@ -121,14 +123,20 @@ class Search extends React.Component {
     }
   }
 
+  displayDetailForFilm = (idFilm, listId) => {
+    //Prise en charge du clic sur un film
+    console.log("film.id=" + idFilm + " film.listId=" + listId);
+  }; //il faut ensuite appeler la fonction displayDetailForFilm dans le component FilmItem.
+
   render() {
+    const film = this.props.film;
     return (
       <SafeAreaView style={styles.main_container}>
         <TextInput
           style={styles.textinput}
           placeholder="Titre du film"
           onChangeText={(text) => this._searchTextInputChanged(text)}
-          onSubmitEditing={() => this._loadFilms()}
+          onSubmitEditing={() => this._searchFilms()}
         />
         {/* <View> */}
         <Button title="Rechercher" onPress={() => this._searchFilms()} />
@@ -137,7 +145,7 @@ class Search extends React.Component {
           <FlatList
             onLayout={(e) => {
               this.setState({ height: e.nativeEvent.layout.height }); //setstate pr ne pas charger les données à l'infini
-              console.log(e.nativeEvent.layout.height);
+              // console.log(e.nativeEvent.layout.height);
             }}
             style={{
               flexGrow: 1,
@@ -151,15 +159,18 @@ class Search extends React.Component {
               }
             }}
             data={this.state.films}
-            keyExtractor={(item) => item.id.toString()}
+            keyExtractor={(item) => item.id}
             renderItem={({ item }) => <FilmItem film={item} />}
           />
         </View>
         {/* </View> */}
         {this._displayLoading()}
       </SafeAreaView>
+
+      
     );
   }
+  
 }
 
 export default Search;
