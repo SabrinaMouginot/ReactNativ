@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_TOKEN } from "@env";
+
   
 const getFilmsFromApiWithSearchedText = async (text, page) => {
   const url =
@@ -35,5 +36,20 @@ async function slowNetwork() {
   await sleep(5000);
 }
 
+const getFilmDetailFromApi = async (id) => {
+  const url =
+    "https://api.themoviedb.org/3/movie/" +
+    id +
+    "?api_key=" +
+    API_TOKEN +
+    "&language=fr";
+  const response = await axios.get(url);
+  return response.data;
+};
+
 export default getFilmsFromApiWithSearchedText;
-export { getFilmsFromApiWithSearchedText, getImageFromApi };
+export {
+  getFilmsFromApiWithSearchedText,
+  getImageFromApi,
+  getFilmDetailFromApi,
+};
