@@ -123,9 +123,9 @@ class Search extends React.Component {
     }
   }
 
-  displayDetailForFilm = (idFilm, listId) => {
+  displayDetailForFilm = (idFilm) => {
     //Prise en charge du clic sur un film
-    console.log("film.id=" + idFilm + " film.listId=" + listId);
+    console.log("film.id=" + idFilm );
   }; //il faut ensuite appeler la fonction displayDetailForFilm dans le component FilmItem.
 
   render() {
