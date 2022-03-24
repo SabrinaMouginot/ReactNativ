@@ -1,4 +1,3 @@
-// API/TMDBApi.js
 import axios from "axios";
 import { API_TOKEN } from "@env";
   

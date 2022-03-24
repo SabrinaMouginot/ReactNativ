@@ -137,6 +137,7 @@ class Search extends React.Component {
           placeholder="Titre du film"
           onChangeText={(text) => this._searchTextInputChanged(text)}
           onSubmitEditing={() => this._searchFilms()}
+          //onSubmitEditing: rappel appelé quand le bouton d'envoi de l'entrée de texte est enfoncé.
         />
         {/* <View> */}
         <Button title="Rechercher" onPress={() => this._searchFilms()} />
@@ -160,14 +161,17 @@ class Search extends React.Component {
             }}
             data={this.state.films}
             keyExtractor={(item) => item.id}
-            renderItem={({ item }) => <FilmItem film={item} />}
+            renderItem={({ item }) => (
+              <FilmItem
+                film={item}
+                displayDetailForFilm={this.displayDetailForFilm}
+              />
+            )}
           />
         </View>
         {/* </View> */}
         {this._displayLoading()}
       </SafeAreaView>
-
-      
     );
   }
   

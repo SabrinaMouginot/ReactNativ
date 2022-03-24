@@ -1,5 +1,3 @@
-// Helpers/filmsData.js
-
 let films = [
   {
     id: 181808,

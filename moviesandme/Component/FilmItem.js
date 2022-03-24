@@ -1,4 +1,3 @@
-// Components/FilmItem.js
 import React from "react";
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import dayjs from "dayjs";
@@ -10,7 +9,14 @@ class FilmItem extends React.Component {
   render() {
     const film = this.props.film;
     console.log("test:" + this.props.film.title);
+
+ // Récupération des props par décomposition Javascript
+    // { film, displayDetailForFilm } = this.props
+    // '⟺     const film = this.props.film
+    // '       const displayDetailForFilm = this.props.displayDetailForFilm
+    
     return (
+      <Pressable onPress={ () => displayDetailForFilm(film.id, film.listId) } >
       <Pressable onPress={() => alert("clicked")}>
         <View>
           <View style={styles.film_main_container}>
@@ -34,7 +40,8 @@ class FilmItem extends React.Component {
             </View>
           </View>
         </View>
-      </Pressable>
+        </Pressable>
+        </Pressable>
     );
   }
 }
