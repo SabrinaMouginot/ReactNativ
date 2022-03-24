@@ -85,8 +85,8 @@ class Search extends React.Component {
   _loadFilms() {
     if (this.searchedText.length > 0 && !this.state.isLoading) {
       this.setState({
-        isLoading:true,
-      })
+        isLoading: true,
+      });
       getFilmsFromApiWithSearchedText(this.searchedText, this.page + 1).then(
         (data) => {
           // enlever le forceUpdate()          this.page = data.page
@@ -113,7 +113,6 @@ class Search extends React.Component {
 
   _displayLoading() {
     if (this.state.isLoading) {
-
       return (
         <View style={styles.loading_container}>
           <ActivityIndicator size="large" />
@@ -123,9 +122,10 @@ class Search extends React.Component {
     }
   }
 
+  //Prise en charge du clic sur un film
   displayDetailForFilm = (idFilm) => {
-    //Prise en charge du clic sur un film
-    console.log("film.id=" + idFilm );
+    console.log("film.id=" + idFilm);
+    this.props.navigation.navigate("FilmDetail", { idFilm: idFilm });
   }; //il faut ensuite appeler la fonction displayDetailForFilm dans le component FilmItem.
 
   render() {
@@ -174,7 +174,6 @@ class Search extends React.Component {
       </SafeAreaView>
     );
   }
-  
 }
 
 export default Search;
