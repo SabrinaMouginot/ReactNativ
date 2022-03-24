@@ -128,6 +128,7 @@ class Search extends React.Component {
     this.props.navigation.navigate("FilmDetail", { idFilm: idFilm });
   }; //il faut ensuite appeler la fonction displayDetailForFilm dans le component FilmItem.
 
+  
   render() {
     const film = this.props.film;
     return (
