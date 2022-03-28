@@ -43,6 +43,7 @@ const getFilmDetailFromApi = async (id) => {
     "?api_key=" +
     API_TOKEN +
     "&language=fr";
+  console.log(url)
   const response = await axios.get(url);
   return response.data;
 };
